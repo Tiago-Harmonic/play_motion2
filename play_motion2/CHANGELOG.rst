@@ -2,8 +2,8 @@
 Changelog for package play_motion2
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.1.2 (2024-07-04)
+------------------
 * Handle joint state not available in /joint_states topic
 * Contributors: Noel Jimenez
 
