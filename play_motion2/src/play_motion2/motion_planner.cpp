@@ -255,6 +255,12 @@ Result MotionPlanner::execute_motion(const MotionInfo & info, const bool skip_pl
     const auto approach_time =
       calculate_approach_time(approach_info.positions, approach_info.joints);
 
+    if (approach_time < 0.0) {
+      return Result(
+        Result::State::ERROR,
+        "Error calculating approach time, some joint has not been found in /joint_states topic");
+    }
+
     MotionInfo unplanned_info = info;
     if (approach_time > info.times[0]) {
       for (auto & time : unplanned_info.times) {
@@ -306,7 +312,16 @@ double MotionPlanner::calculate_approach_time(
 
   MotionPositions curr_pos;
   for (const auto & joint : joints) {
-    curr_pos.push_back(joint_states_[joint][0]);
+    if (std::find_if(
+        joint_states_.begin(), joint_states_.end(),
+        [&](const auto & joint_state) {return joint_state.first == joint;}) != joint_states_.end())
+    {
+      curr_pos.push_back(joint_states_[joint][0]);
+    } else {
+      RCLCPP_ERROR_STREAM(
+        node_->get_logger(), "Joint '" << joint << "' not found in /joint_states topic");
+      return -1.0;
+    }
   }
   lock.unlock();
 
