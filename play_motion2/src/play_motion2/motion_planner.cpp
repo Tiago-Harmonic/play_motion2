@@ -73,7 +73,7 @@ MotionPlanner::MotionPlanner(rclcpp_lifecycle::LifecycleNode::SharedPtr node)
     std::bind(&MotionPlanner::joint_states_callback, this, _1), options);
 
   list_controllers_client_ = node_->create_client<ListControllers>(
-    "/controller_manager/list_controllers", rmw_qos_profile_default, motion_planner_cb_group_);
+    "/controller_manager/list_controllers", rclcpp::QoS(1), motion_planner_cb_group_);
 
   move_group_node_ = rclcpp::Node::make_shared("_move_group_node", node_->get_name());
 
