@@ -11,9 +11,19 @@ ament_auto_add_library(play_motion2 SHARED
   src/play_motion2/play_motion2.cpp
 )
 
+# play_motion2 client
+ament_auto_add_library(client
+  src/play_motion2/client.cpp
+)
+
 # play_motion2_node
 ament_auto_add_executable(play_motion2_node
   src/play_motion2_main.cpp
+)
+
+# run_motion
+ament_auto_add_executable(run_motion
+  src/run_motion.cpp
 )
 
 if(BUILD_TESTING)
@@ -30,6 +40,25 @@ if(BUILD_TESTING)
     pluginlib
   )
   pluginlib_export_plugin_description_file(hardware_interface test/rrbot/rrbot_system.xml)
+
+  # passthrough_controller
+  generate_parameter_library(passthrough_controller_parameters
+    test/controllers/src/passthrough_controller_parameters.yaml
+  )
+  add_library(passthrough_controller SHARED
+    test/controllers/src/passthrough_controller.cpp
+  )
+
+  add_compile_definitions(HARDWARE_INTERFACE_VERSION_MAJOR=${hardware_interface_VERSION_MAJOR})
+  add_compile_definitions(GENERATE_PARAMETER_LIBRARY_VERSION_MINOR=${generate_parameter_library_VERSION_MINOR})
+  target_link_libraries(passthrough_controller PUBLIC passthrough_controller_parameters)
+  ament_target_dependencies(passthrough_controller PUBLIC controller_interface realtime_tools)
+  pluginlib_export_plugin_description_file(controller_interface test/controllers/passthrough_controller.xml)
+
+  install(
+    TARGETS passthrough_controller
+    DESTINATION lib
+  )
 
   # motion_loader_test
   ament_auto_add_gtest(motion_loader_test
@@ -51,6 +80,7 @@ if(BUILD_TESTING)
     play_motion2_msgs
     rclcpp
     rclcpp_action
+    sensor_msgs
   )
 
   install(
