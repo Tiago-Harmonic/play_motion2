@@ -2,6 +2,47 @@
 Changelog for package play_motion2
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+1.5.1 (2025-03-11)
+------------------
+* Remap description topics
+* Handle generate_parameter_library include for different versions
+* Ignore set_value output
+* Use set value output depending on hardware interface version
+* Add optional argument rclcpp::NodeOptions to play_motion_client
+* Contributors: Noel Jimenez, Sai Kishor Kothakota, thomasung
+
+1.5.0 (2025-01-10)
+------------------
+* Add support for chainable controllers
+* Contributors: Noel Jimenez
+
+1.4.0 (2024-11-18)
+------------------
+* Remove controller manager name from spawner arguments
+* Add test for Joint Trajectory failure
+* Cancel all goals if one of the controllers fails
+* Contributors: Noel Jimenez, Sai Kishor Kothakota
+
+1.3.0 (2024-09-10)
+------------------
+* Remove error log from exists function
+* Check the motion exists for isMotionReady service
+* Add missing option to overwrite when adding motion
+* Add option to run motions asynchronously
+* Create service functions for the PlayMotion2Client
+* Add run_motion executable
+* Add simple client for PlayMotion2
+* Add new motion key only if is not overwritten
+* Create services to add and remove motions
+* Add service to get the info of a motion
+* Contributors: Noel Jimenez
+
+1.2.0 (2024-08-09)
+------------------
+* Wait for robot description and semantic when using planning
+* Wait for the executor to be spinning for play_motion2_test
+* Contributors: Noel Jimenez
+
 1.1.2 (2024-07-04)
 ------------------
 * Handle joint state not available in /joint_states topic
