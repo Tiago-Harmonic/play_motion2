@@ -158,7 +158,7 @@ void MotionPlanner::check_parameters()
   planning_groups_ = planning_groups_it->second.as_string_array();
 
   for (const auto & group : planning_groups_) {
-    move_groups_.emplace_back(std::make_shared<MoveGroupInterface>(move_group_node_, group));
+    // move_groups_.emplace_back(std::make_shared<MoveGroupInterface>(move_group_node_, group)); // (TODO) find error
   }
 }
 
